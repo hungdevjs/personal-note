@@ -12,67 +12,58 @@ const Login = props => {
 
   const dispatch = useDispatch()
 
-  const [render, setRender] = useState(false)
-
   useEffect(() => {
     if (user) {
       props.history.push("/")
     }
-
-    const timeout = setTimeout(() => {
-      setRender(true)
-    }, 1000)
-
-    return () => clearTimeout(timeout)
   }, [user])
 
   const onFinish = values => {
     dispatch(userLogin(values))
   }
 
-  return render
-    ? <div className="login-container">
-      <Form
-        name="normal_login"
-        style={{ width: "300px" }}
-        initialValues={{
-          email: "",
-          password: ""
-        }}
-        onFinish={onFinish}
-      >
-        <div style={{ marginBottom: 16 }}>
-          <Text strong type="danger" style={{ fontSize: "1.15em" }}>
-            PERSONAL UTILS
+  return <div className="login-container">
+    <Form
+      name="normal_login"
+      style={{ width: "300px" }}
+      initialValues={{
+        email: "",
+        password: ""
+      }}
+      onFinish={onFinish}
+    >
+      <div style={{ marginBottom: 16 }}>
+        <Text strong type="danger" style={{ fontSize: "1.15em" }}>
+          PERSONAL UTILS
       </Text>
-        </div>
-        <Form.Item
-          name="email"
-          rules={[
-            {
-              required: true,
-              message: "Please input your email!",
-            },
-          ]}
-        >
-          <Input prefix={<UserOutlined />} placeholder="Email" />
-        </Form.Item>
-        <Form.Item
-          name="password"
-          rules={[
-            {
-              required: true,
-              message: "Please input your password!",
-            },
-          ]}
-        >
-          <Input
-            prefix={<LockOutlined />}
-            type="password"
-            placeholder="Password"
-          />
-        </Form.Item>
-        {/* <Form.Item>
+      </div>
+      <Form.Item
+        name="email"
+        rules={[
+          {
+            required: true,
+            message: "Please input your email!",
+          },
+        ]}
+      >
+        <Input prefix={<UserOutlined />} placeholder="Email" />
+      </Form.Item>
+      <Form.Item
+        name="password"
+        rules={[
+          {
+            required: true,
+            message: "Please input your password!",
+          },
+        ]}
+      >
+        <Input
+          prefix={<LockOutlined />}
+          type="password"
+          placeholder="Password"
+        />
+      </Form.Item>
+      {/* <Form.Item>
         <Form.Item name="remember" valuePropName="checked" noStyle>
           <Checkbox>Remember me</Checkbox>
         </Form.Item>
@@ -82,15 +73,14 @@ const Login = props => {
         </a>
       </Form.Item> */}
 
-        <Form.Item>
-          <Button type="primary" htmlType="submit">
-            Log in
+      <Form.Item>
+        <Button type="primary" htmlType="submit">
+          Log in
         </Button>
-          {/* Or <a href="">register now!</a> */}
-        </Form.Item>
-      </Form>
-    </div>
-    : null
+        {/* Or <a href="">register now!</a> */}
+      </Form.Item>
+    </Form>
+  </div>
 }
 
 export default Login

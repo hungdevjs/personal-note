@@ -11,12 +11,21 @@ import { getInfo } from "../commons/action"
 
 const Layout = () => {
     const user = useSelector(state => state.common.user)
+    const isLoading = useSelector(state => state.common.isLoading)
+
     const dispatch = useDispatch()
 
     const [isLoaded, setIsLoaded] = useState(true)
+    const [render, setRender] = useState(false)
 
     useEffect(() => {
         getData()
+
+        const timeout = setTimeout(() => {
+            setRender(true)
+        }, 1000)
+
+        return () => clearTimeout(timeout)
     }, [])
 
     const getData = async () => {
@@ -42,7 +51,7 @@ const Layout = () => {
                             component={route.component}
                         />)}
 
-                        <Redirect from="/*" to="/login" />
+                        {!isLoading && render && <Redirect from="/*" to="/login" />}
                     </Switch>
                 </Router>
             </Col>
