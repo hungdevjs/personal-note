@@ -1,8 +1,11 @@
 import React, { useState } from "react"
-import { Space, Row, Col, Badge, Avatar, Typography } from 'antd'
-import { MenuUnfoldOutlined, UserOutlined } from "@ant-design/icons"
+import { useDispatch } from "react-redux";
+import { Space, Row, Col, Badge, Avatar, Typography, Popover } from 'antd'
+import { MenuUnfoldOutlined, UserOutlined, LogoutOutlined } from "@ant-design/icons"
 
 import Drawer from "./Drawer"
+
+import { logout } from "../commons/action"
 
 const { Text } = Typography
 
@@ -10,12 +13,24 @@ const Header = props => {
     const [isOpen, setIsOpen] = useState(false)
     const [isPhone, setIsPhone] = useState(window.innerWidth < 576)
 
+    const dispatch = useDispatch()
+
     window.addEventListener("resize", () => {
         const width = window.innerWidth
         setIsPhone(width < 576)
     })
 
-    return <Row style={{ padding: 8 }}>
+    const content = <div>
+        <div
+            className="cursor-pointer hover-opacity"
+            onClick={() => dispatch(logout())}
+        >
+            <LogoutOutlined />
+            <span style={{ marginLeft: 8 }}>Log out</span>
+        </div>
+    </div>
+
+    return <Row style={{ padding: "8px 8px 8px 0" }}>
         <Drawer
             isOpen={isOpen}
             setIsOpen={setIsOpen}
@@ -34,11 +49,13 @@ const Header = props => {
 
         <Col span={6}>
             <Row justify="end">
-                <span className="cursor-pointer">
-                    <Badge count={1}>
-                        <Avatar shape="circle" icon={<UserOutlined />} />
-                    </Badge>
-                </span>
+                <Popover placement="bottomRight" title="" content={content} trigger="click">
+                    <span className="cursor-pointer">
+                        <Badge count={1}>
+                            <Avatar shape="circle" icon={<UserOutlined />} />
+                        </Badge>
+                    </span>
+                </Popover>
             </Row>
         </Col>
     </Row>

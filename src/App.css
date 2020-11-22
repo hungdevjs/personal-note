@@ -6,6 +6,10 @@
     cursor: pointer
 }
 
+.hover-opacity:hover {
+    opacity: 0.8
+}
+
 .drawer-toggle {
     font-size: 24px;
     cursor: pointer;

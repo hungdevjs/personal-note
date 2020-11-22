@@ -1,14 +1,7 @@
 
 import axios from "axios"
-import { BASE_URL } from "../constant"
-
-const getAccessToken = () => {
-    try {
-        return localStorage.getItem('accessToken')
-    } catch {
-        return ""
-    }
-}
+import { BASE_URL } from "./utils/constants"
+import { getAccessToken } from "./utils/helper"
 
 const request = axios.create({
     baseURL: BASE_URL,
@@ -32,3 +25,5 @@ request.interceptors.request.use(
 export default request
 
 export const logIn = data => request.post("/account/login", data)
+
+export const getUserInfo = () => request.get("account/info")

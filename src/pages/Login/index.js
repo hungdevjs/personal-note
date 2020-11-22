@@ -1,56 +1,78 @@
-import React from "react"
-import { Form, Input, Button, Checkbox, Typography } from "antd"
+import React, { useState, useEffect } from "react"
+import { useSelector, useDispatch } from "react-redux"
+import { Form, Input, Button, Typography } from "antd"
 import { UserOutlined, LockOutlined } from "@ant-design/icons"
+
+import { userLogin } from "../../commons/action"
 
 const { Text } = Typography
 
-const Login = () => {
-  const onFinish = (values) => {
-    console.log("Received values of form: ", values)
-  };
+const Login = props => {
+  const user = useSelector(state => state.common.user)
 
-  return <div className="login-container">
-    <Form
-      name="normal_login"
-      style={{ width: "300px" }}
-      initialValues={{
-        email: "",
-        password: ""
-      }}
-      onFinish={onFinish}
-    >
-      <div style={{ marginBottom: 16 }}>
-        <Text strong type="danger" style={{ fontSize: "1.15em" }}>
-          PERSONAL UTILS
+  const dispatch = useDispatch()
+
+  const [render, setRender] = useState(false)
+
+  useEffect(() => {
+    if (user) {
+      props.history.push("/")
+    }
+
+    const timeout = setTimeout(() => {
+      setRender(true)
+    }, 1000)
+
+    return () => clearTimeout(timeout)
+  }, [user])
+
+  const onFinish = values => {
+    dispatch(userLogin(values))
+  }
+
+  return render
+    ? <div className="login-container">
+      <Form
+        name="normal_login"
+        style={{ width: "300px" }}
+        initialValues={{
+          email: "",
+          password: ""
+        }}
+        onFinish={onFinish}
+      >
+        <div style={{ marginBottom: 16 }}>
+          <Text strong type="danger" style={{ fontSize: "1.15em" }}>
+            PERSONAL UTILS
       </Text>
-      </div>
-      <Form.Item
-        name="email"
-        rules={[
-          {
-            required: true,
-            message: "Please input your email!",
-          },
-        ]}
-      >
-        <Input prefix={<UserOutlined />} placeholder="Email" />
-      </Form.Item>
-      <Form.Item
-        name="password"
-        rules={[
-          {
-            required: true,
-            message: "Please input your password!",
-          },
-        ]}
-      >
-        <Input
-          prefix={<LockOutlined />}
-          type="password"
-          placeholder="Password"
-        />
-      </Form.Item>
-      {/* <Form.Item>
+        </div>
+        <Form.Item
+          name="email"
+          rules={[
+            {
+              required: true,
+              message: "Please input your email!",
+            },
+          ]}
+        >
+          <Input prefix={<UserOutlined />} placeholder="Email" />
+        </Form.Item>
+        <Form.Item
+          name="password"
+          rules={[
+            {
+              required: true,
+              message: "Please input your password!",
+            },
+          ]}
+        >
+          <Input
+            prefix={<LockOutlined />}
+            type="password"
+            placeholder="Password"
+          />
+        </Form.Item>
+        {/* <Form.Item>
         <Form.Item name="remember" valuePropName="checked" noStyle>
           <Checkbox>Remember me</Checkbox>
         </Form.Item>
@@ -60,14 +82,15 @@ const Login = () => {
         </a>
       </Form.Item> */}
 
-      <Form.Item>
-        <Button type="primary" htmlType="submit">
-          Log in
+        <Form.Item>
+          <Button type="primary" htmlType="submit">
+            Log in
         </Button>
-        {/* Or <a href="">register now!</a> */}
-      </Form.Item>
-    </Form>
-  </div>
+          {/* Or <a href="">register now!</a> */}
+        </Form.Item>
+      </Form>
+    </div>
+    : null
 }
 
 export default Login
