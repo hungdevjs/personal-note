@@ -27,3 +27,5 @@ export default request
 export const logIn = data => request.post("/account/login", data)
 
 export const getUserInfo = () => request.get("account/info")
+
+export const getNotes = () => request.get("/note")

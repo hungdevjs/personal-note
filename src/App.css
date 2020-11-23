@@ -6,8 +6,16 @@
     cursor: pointer
 }
 
-.hover-opacity:hover {
-    opacity: 0.8
+.hover-blue:hover {
+    color: var(--blue)
+}
+
+.bold {
+    font-weight: 500
+}
+
+.text-center {
+    text-align: center
 }
 
 .drawer-toggle {

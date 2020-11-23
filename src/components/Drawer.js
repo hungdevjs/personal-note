@@ -1,6 +1,7 @@
 import React from "react"
 import { useHistory } from "react-router-dom"
-import { Drawer, Button } from "antd"
+import { Drawer } from "antd"
+import { HomeOutlined, BookOutlined } from "@ant-design/icons"
 
 const placement = "left"
 const DrawerContainer = ({ isOpen, setIsOpen }) => {
@@ -20,12 +21,14 @@ const DrawerContainer = ({ isOpen, setIsOpen }) => {
         key={placement}
         width="175"
     >
-        <Button type="link" block onClick={() => goTo("/")}>
+        <p className="bold text-center hover-blue cursor-pointer" onClick={() => goTo("/")}>
+            <HomeOutlined />{" "}
             Home
-        </Button>
-        <Button type="link" block onClick={() => goTo("/notes")}>
+        </p>
+        <p className="bold text-center hover-blue cursor-pointer" onClick={() => goTo("/notes")}>
+            <BookOutlined /> {" "}
             Notes
-        </Button>
+        </p>
     </Drawer>
 }
 

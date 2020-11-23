@@ -22,7 +22,7 @@ const Header = props => {
 
     const content = <div>
         <div
-            className="cursor-pointer hover-opacity"
+            className="cursor-pointer hover-blue"
             onClick={() => dispatch(logout())}
         >
             <LogoutOutlined />
