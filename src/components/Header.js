@@ -30,7 +30,7 @@ const Header = props => {
         </div>
     </div>
 
-    return <Row style={{ padding: "8px 8px 8px 0" }}>
+    return <Row style={{ padding: 8 }}>
         <Drawer
             isOpen={isOpen}
             setIsOpen={setIsOpen}
@@ -58,6 +58,7 @@ const Header = props => {
                 </Popover>
             </Row>
         </Col>
+        <hr />
     </Row>
 }
 

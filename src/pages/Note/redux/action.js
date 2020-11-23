@@ -10,7 +10,11 @@ export const getAllNotes = () => async dispatch => {
 
         const { data, error } = res.data
         if (error) throw new Error(error)
-        console.log(res)
+
+        dispatch({
+            type: "SET_NOTES",
+            payload: data
+        })
     } catch (err) {
         alert({ type: "error", message: err.message })
     }
