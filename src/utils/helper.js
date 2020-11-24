@@ -14,3 +14,12 @@ export const getAccessToken = () => {
         return ""
     }
 }
+
+export const matchingSearch = (rootString, searchString) => {
+    try {
+        if (!rootString || !searchString) return true
+        return rootString.toUpperCase().includes(searchString.toUpperCase())
+    } catch (err) {
+        return false
+    }
+}

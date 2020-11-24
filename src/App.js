@@ -6,6 +6,7 @@ import "./App.css"
 
 import Layout from "./layouts"
 import Loading from "./components/Loading"
+import Modal from "./components/Modal"
 
 import store from "./store"
 
@@ -14,6 +15,7 @@ const App = () => {
     <div style={{ padding: 8, height: "100vh" }}>
       <Loading />
       <Layout />
+      <Modal />
     </div>
   </Provider>
 }

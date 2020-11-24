@@ -53,3 +53,22 @@ export const logout = () => async dispatch => {
         payload: null
     })
 }
+
+export const closeModal = () => async dispatch => {
+    dispatch({
+        type: "SET_MODAL",
+        payload: {
+            title: "",
+            message: "",
+            isOpen: false,
+            handleOk: null
+        }
+    })
+}
+
+export const setModal = modal => async dispatch => {
+    dispatch({
+        type: "SET_MODAL",
+        payload: modal
+    })
+}

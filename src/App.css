@@ -18,8 +18,12 @@
     font-weight: 500
 }
 
+.strong-bold {
+    font-weight: 700
+}
+
 .small {
-    font-weight: 0.85em
+    font-size: 0.75rem
 }
 
 .text-center {
@@ -36,6 +40,10 @@
 
 .justify-content-center {
     justify-content: center;
+}
+
+.justify-content-between {
+    justify-content: space-between;
 }
 
 .flex-column {
