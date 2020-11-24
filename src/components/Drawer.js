@@ -19,7 +19,7 @@ const DrawerContainer = ({ isOpen, setIsOpen }) => {
         onClose={() => setIsOpen(false)}
         visible={isOpen}
         key={placement}
-        width="175"
+        width="250"
     >
         <p className="bold text-center hover-blue cursor-pointer" onClick={() => goTo("/")}>
             <HomeOutlined />{" "}
