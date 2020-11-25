@@ -32,10 +32,10 @@ const Login = props => {
       }}
       onFinish={onFinish}
     >
-      <div style={{ marginBottom: 16 }}>
-        <Text strong type="danger" style={{ fontSize: "1.15em" }}>
+      <div style={{ marginBottom: 16, textAlign: "center" }}>
+        <Text strong type="danger" style={{ fontSize: "1.5rem" }}>
           PERSONAL UTILS
-      </Text>
+        </Text>
       </div>
       <Form.Item
         name="email"
