@@ -11,6 +11,7 @@ const NoteColorPicker = props => {
             key={index}
             className="d-flex align-items-center justify-content-center"
             style={{
+                cursor: "pointer",
                 backgroundColor: noteColor,
                 borderRadius: "50%",
                 width: 40,

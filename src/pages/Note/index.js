@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react"
 import { useSelector, useDispatch } from "react-redux"
-import { Input, Row, Col, Space, Collapse, Typography, Tooltip, Button, Alert } from "antd"
+import { Input, Row, Col, Space, Collapse, Typography, Tooltip, Button, Alert, DatePicker, Switch } from "antd"
 import { EditOutlined, PlusOutlined } from "@ant-design/icons"
 import moment from "moment"
 
@@ -10,12 +10,11 @@ import NoteColorPicker from "../../components/NoteColorPicker"
 import { getAllNotes, update, create, remove } from "./redux/action"
 import { setModal } from "../../commons/action"
 
-import { fullDateFormat, NORMAL_NOTE_COLOR } from "../../utils/constants"
+import { dateFormat, fullDateFormat, NORMAL_NOTE_COLOR } from "../../utils/constants"
 import { alert, matchingSearch } from "../../utils/helper"
 
 import useModal from "../../hooks/useModal"
 
-const { Search } = Input
 const { Panel } = Collapse
 const { Text } = Typography
 
@@ -28,7 +27,9 @@ const createBtnStyle = {
 const defaultNote = {
     title: "",
     text: "",
-    color: NORMAL_NOTE_COLOR
+    color: NORMAL_NOTE_COLOR,
+    startTime: null,
+    endTime: null
 }
 
 const Note = props => {
@@ -46,11 +47,12 @@ const Note = props => {
     const [searchString, setSearchString] = useState("")
 
     const generateTime = note => {
-        if (!note.updatedAt) return
+        if (!note.startTime) return
 
-        const date = new Date(note.updatedAt)
+        const start = new Date(note.startTime)
+
         return <Space>
-            <span className="strong-bold small">{moment(date).format(fullDateFormat)}</span>
+            <span className="strong-bold small">{moment(start).format(dateFormat)}</span>
             <EditOutlined className="hover-blue" onClick={e => {
                 e.stopPropagation()
                 setCurrentNote(note)
@@ -81,12 +83,24 @@ const Note = props => {
         })
     }
 
+    useEffect(() => {
+        setIsShowTime(!!currentNote.endTime)
+    }, [currentNote])
+
     const submitNote = async () => {
         try {
             if (!currentNote) throw new Error("No data")
 
             if (!currentNote.title.trim() && !currentNote.text.trim()) {
                 throw new Error("Empty note")
+            }
+
+            if (currentNote.endTime && !currentNote.startTime) {
+                throw new Error("Start time is empty")
+            }
+
+            if (currentNote.startTime && currentNote.endTime && currentNote.startTime > currentNote.endTime) {
+                throw new Error("Invalid time range")
             }
 
             const nextFunction = currentNote._id
@@ -100,7 +114,7 @@ const Note = props => {
             getData()
         } catch (err) {
             alert({
-                type: "danger",
+                type: "error",
                 message: err.message
             })
         }
@@ -121,6 +135,8 @@ const Note = props => {
         }))
     }
 
+    const [isShowTime, setIsShowTime] = useState(false)
+
     const renderModal = () => <CustomModal
         title={currentNote.title}
         isOpen={isOpen}
@@ -137,22 +153,54 @@ const Note = props => {
                 color={currentNote.color}
                 setColor={color => editCurrentNote({ color })}
             />
-
+            <Switch
+                checkedChildren="Date range"
+                unCheckedChildren="Single date"
+                checked={isShowTime}
+                onChange={e => {
+                    setIsShowTime(e)
+                    if (!e) {
+                        editCurrentNote({ endTime: null })
+                    }
+                }}
+            />
             <div style={{ borderRadius: 4, padding: 16, marginTop: 8, backgroundColor: currentNote.color }}>
                 <span className="bold">Title</span>
                 <Input
+                    style={{ marginBottom: 8 }}
                     value={currentNote.title}
                     onChange={e => editCurrentNote({ title: e.target.value })}
                 />
 
                 <span className="bold">Text</span>
                 <Input.TextArea
+                    style={{ marginBottom: 8 }}
                     value={currentNote.text}
                     onChange={e => editCurrentNote({ text: e.target.value })}
                 />
+
+                <span className="bold">{isShowTime ? "Start date" : "Date"}</span>
+                <DatePicker
+                    style={{ width: "100%", marginBottom: 8 }}
+                    onChange={e => editCurrentNote({ startTime: new Date(e._d).getTime() })}
+                    value={currentNote.startTime && moment(new Date(currentNote.startTime), dateFormat)}
+                    format={dateFormat}
+                />
+
+                {isShowTime && <>
+                    <span className="bold">End date</span>
+                    <DatePicker
+                        style={{ width: "100%", marginBottom: 8 }}
+                        onChange={e => editCurrentNote({ endTime: new Date(e._d).getTime() })}
+                        value={currentNote.endTime && moment(new Date(currentNote.endTime), dateFormat)}
+                        format={dateFormat}
+                    />
+                </>}
             </div>
         </Space>
     </CustomModal>
+
+    const notesRender = noteList.filter(note => matchingSearch(note.title, searchString) || matchingSearch(note.text, searchString))
 
     return <Space direction="vertical" style={{ width: "100%" }}>
         <CreateBtn />
@@ -171,15 +219,18 @@ const Note = props => {
             </Col>
         </Row>
         <Row>
-            {noteList && noteList.length > 0
-                ? noteList.filter(note => matchingSearch(note.title, searchString) || matchingSearch(note.text, searchString)).map(note => <Col md={12} sm={24} xs={24} style={{ padding: "0 8px" }}>
+            {notesRender && notesRender.length > 0
+                ? notesRender.map(note => <Col key={note._id} md={12} sm={24} xs={24} style={{ padding: "0 8px" }}>
                     <Collapse style={{ marginBottom: 8 }}>
                         <Panel
-                            key={note._id}
                             header={note.title}
                             extra={generateTime(note)}
                             style={{ backgroundColor: note.color }}
                         >
+                            {!!note.startTime && <div>
+                                <span className="strong-bold small">{moment(new Date(note.startTime)).format(dateFormat)}</span>
+                                {!!note.endTime && <span className="strong-bold small">-{moment(new Date(note.endTime)).format(dateFormat)}</span>}
+                            </div>}
                             <Text strong>{note.text}</Text>
                         </Panel>
                     </Collapse>

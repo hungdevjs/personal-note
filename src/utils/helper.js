@@ -17,7 +17,8 @@ export const getAccessToken = () => {
 
 export const matchingSearch = (rootString, searchString) => {
     try {
-        if (!rootString || !searchString) return true
+        if (!searchString || !searchString) return true
+        if (!rootString || !rootString) return false
         return rootString.toUpperCase().includes(searchString.toUpperCase())
     } catch (err) {
         return false
