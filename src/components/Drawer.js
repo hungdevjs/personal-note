@@ -1,7 +1,8 @@
 import React from "react"
 import { useHistory } from "react-router-dom"
 import { Drawer } from "antd"
-import { HomeOutlined, BookOutlined } from "@ant-design/icons"
+
+import navigations from "../navigations"
 
 const placement = "left"
 const DrawerContainer = ({ isOpen, setIsOpen }) => {
@@ -21,14 +22,15 @@ const DrawerContainer = ({ isOpen, setIsOpen }) => {
         key={placement}
         width="250"
     >
-        <p className="bold text-center hover-blue cursor-pointer" onClick={() => goTo("/")}>
-            <HomeOutlined />{" "}
-            Home
-        </p>
-        <p className="bold text-center hover-blue cursor-pointer" onClick={() => goTo("/notes")}>
-            <BookOutlined /> {" "}
-            Notes
-        </p>
+        {navigations.map(nav => <p
+            key={nav.name}
+            className="bold text-center hover-blue cursor-pointer"
+            style={{ fontSize: "1.1rem" }}
+            onClick={() => goTo(nav.path)}
+        >
+            <nav.icon />
+            <span style={{ marginLeft: 16 }}>{nav.name}</span>
+        </p>)}
     </Drawer>
 }
 

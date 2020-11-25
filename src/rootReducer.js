@@ -1,7 +1,7 @@
 import { combineReducers } from "redux"
 
 import common from "./commons/reducer"
-import note from "./pages/Note/redux/reducer"
+import note from "./pages/Home/redux/reducer"
 
 export default combineReducers({
     common,

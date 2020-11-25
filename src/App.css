@@ -73,3 +73,9 @@
     align-items: center;
     justify-content: center;
 }
+
+
+/* overwrite */
+.ant-drawer-title {
+    text-align: center
+}

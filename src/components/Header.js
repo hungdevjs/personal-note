@@ -51,7 +51,7 @@ const Header = props => {
             <Row justify="end">
                 <Popover placement="bottomRight" title="" content={content} trigger="click">
                     <span className="cursor-pointer">
-                        <Badge count={1}>
+                        <Badge count={null}>
                             <Avatar shape="circle" icon={<UserOutlined />} />
                         </Badge>
                     </span>
