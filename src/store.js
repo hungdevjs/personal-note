@@ -6,7 +6,7 @@ import rootReducer from "./rootReducer"
 
 let middleware = [thunk]
 if (process.env.NODE_ENV !== "production") {
-    const logger = require("redux-logger")
+    const logger = require("redux-logger").default
     middleware = [...middleware, logger]
 }
 

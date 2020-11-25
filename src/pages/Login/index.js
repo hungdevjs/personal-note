@@ -74,7 +74,7 @@ const Login = props => {
       </Form.Item> */}
 
       <Form.Item>
-        <Button type="primary" htmlType="submit">
+        <Button type="primary" block size="large" htmlType="submit">
           Log in
         </Button>
         {/* Or <a href="">register now!</a> */}
