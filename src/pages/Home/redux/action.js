@@ -1,5 +1,5 @@
-import { getNotes, updateNote, createNote, removeNote } from "../../../api"
-import { setLoading } from "../../../commons/action"
+import { getNotes, updateNote, createNote, removeNote, completeNote } from "../../../api"
+import { setLoading, setAnimation } from "../../../commons/action"
 import { alert } from "../../../utils/helper"
 
 export const getAllNotes = () => async dispatch => {
@@ -66,6 +66,25 @@ export const remove = _id => async dispatch => {
         if (error) throw new Error(error)
 
         alert({ type: "success", message: "Delete note successfully" })
+    } catch (err) {
+        alert({ type: "error", message: err.message })
+    }
+
+    dispatch(setLoading(false))
+}
+
+export const complete = _id => async dispatch => {
+    dispatch(setLoading(true))
+
+    try {
+        const res = await completeNote(_id)
+
+        const { error } = res.data
+        if (error) throw new Error(error)
+
+        dispatch(setAnimation(true))
+        const audio = new Audio("/sounds/success_sound.mp3")
+        audio.play()
     } catch (err) {
         alert({ type: "error", message: err.message })
     }

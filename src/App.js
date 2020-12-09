@@ -7,6 +7,7 @@ import "./App.css"
 import Layout from "./layouts"
 import Loading from "./components/Loading"
 import Modal from "./components/Modal"
+import CompletedAnimation from "./components/CompletedAnimation"
 
 import store from "./store"
 
@@ -16,6 +17,7 @@ const App = () => {
       <Loading />
       <Layout />
       <Modal />
+      <CompletedAnimation />
     </div>
   </Provider>
 }

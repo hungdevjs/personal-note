@@ -28,10 +28,12 @@ export const logIn = data => request.post("/account/login", data)
 
 export const getUserInfo = () => request.get("account/info")
 
-export const getNotes = () => request.get("/note")
+export const getNotes = () => request.get(`/note`)
 
 export const updateNote = note => request.put(`/note/${note._id}`, note)
 
 export const createNote = note => request.post("/note", note)
 
 export const removeNote = _id => request.delete(`/note/${_id}`)
+
+export const completeNote = _id => request.put(`/note/complete/${_id}`)

@@ -7,6 +7,11 @@ export const setLoading = status => ({
     payload: status
 })
 
+export const setAnimation = status => ({
+    type: "SET_ANIMATION",
+    payload: status
+})
+
 export const getInfo = () => async dispatch => {
     const token = getAccessToken()
     if (!token) return

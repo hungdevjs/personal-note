@@ -1,6 +1,7 @@
 export default (state = {
     user: null,
     isLoading: false,
+    isAnimation: false,
     modal: {
         title: "",
         message: "",
@@ -13,6 +14,11 @@ export default (state = {
             return {
                 ...state,
                 isLoading: action.payload
+            }
+        case "SET_ANIMATION":
+            return {
+                ...state,
+                isAnimation: action.payload
             }
         case "SET_MODAL":
             return {
